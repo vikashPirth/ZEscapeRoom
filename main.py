@@ -71,8 +71,10 @@ class Game:
     
     def take_turn(self):
         prompt  = self.get_room_prompt()
-        selection = input(prompt)
-        print(selection) 
+        selection = int(input(prompt))
+        if selection >=1 and selection <= 5:
+            self.select_object(selection-1)
+            self.take_turn()
     
     def get_room_prompt(self):
         prompt = "Enter the 3 digit lock code or choose an item to interact with: \n"
@@ -81,7 +83,25 @@ class Game:
             count+=1
             prompt+=f"{count}: {name} \n"
         return prompt
+    
+    def select_object(self, index:int):
+        selected_object = self.room.game_objects[index]
+        prompt = self.get_object_interation_string(selected_object.name)
+        interaction = input(prompt)
+        clue = self.interact_with_object(selected_object, interaction)
+        print(clue)
+    
+    def get_object_interation_string(self, name):
+        return f"How do you want to interact with the {name}? \n 1. Look\n 2. Touch\n 3. Smell"
 
+
+    def interact_with_object(self, object:GameObject, interaction):
+        if interaction == "1":
+            return object.look()
+        elif interaction == "2":
+            return object.feel()
+        elif interaction == "3":
+            return object.sniff()
 game = Game()
 
 game.take_turn()
