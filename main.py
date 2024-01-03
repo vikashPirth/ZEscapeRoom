@@ -68,3 +68,20 @@ class Game:
             "The battery compartment is open and empty.",
             "It smells of plastic."),
         ]
+    
+    def take_turn(self):
+        prompt  = self.get_room_prompt()
+        selection = input(prompt)
+        print(selection) 
+    
+    def get_room_prompt(self):
+        prompt = "Enter the 3 digit lock code or choose an item to interact with: \n"
+        count =0
+        for name in self.room.get_game_object_names():
+            count+=1
+            prompt+=f"{count}: {name} \n"
+        return prompt
+
+game = Game()
+
+game.take_turn()
